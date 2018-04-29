@@ -22,4 +22,4 @@ In `continuousscan.sh` edit  the `TARGETS="192.168.1.0/24"` and `OPTIONS="-sV"` 
 After the first run is complete (it will take a while) you can access the website [here](http://127.0.0.1:1337).
 
 It will look like this:
-![Screenshot](https://raw.githubusercontent.com/jgamblin/nmaptable/master/Screen%20Shot%202017-09-07%20at%208.13.00%20PM.png
+![Screenshot](https://raw.githubusercontent.com/jgamblin/NMapNetworkInventoryContainer/master/ScreenShot.png)
