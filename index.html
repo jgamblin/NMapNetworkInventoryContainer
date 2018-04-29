@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset='UTF-8'>
+
+	<title>NMap Network Inventory</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!--[if !IE]><!-->
+	<style>
+	*
+	}
+
+.SearchBar {
+  display: inline;
+  position: relative;
+  left: 1%;
+}
+
+.SearchBar input {
+  position: relative;
+  left: 2%;
+}
+	{
+	  margin: 0;
+	  padding: 0;
+     }
+     body {
+	   font: 14px/1.4 Georgia, Serif;
+     }
+    #page-wrap {
+	  margin: 50px;
+    }
+    p {
+	 margin: 20px 0;
+    }
+
+	/*
+	Generic Styling, for Desktops/Laptops
+	*/
+	table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+	/* Zebra striping */
+	tr:nth-of-type(odd) {
+		background: 	#f8f8ff;
+	}
+	th {
+		background: #333;
+		color: white;
+		font-weight: bold;
+		cursor: s-resize;
+		background-repeat: no-repeat;
+        background-position: 3% center;
+	}
+	td, th {
+		padding: 6px;
+		border: 1px solid #ccc;
+		text-align: left;
+	}
+
+	th.des:after {
+      content: "\21E9";
+    }
+
+    th.aes:after {
+      content: "\21E7";
+    }
+
+	/*
+	Max width before this PARTICULAR table gets nasty
+	This query will take effect for any screen smaller than 760px
+	and also iPads specifically.
+	*/
+	@media
+	only screen and (max-width: 760px),
+	(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+		/* Force table to not be like tables anymore */
+		table, thead, tbody, th, td, tr {
+			display: block;
+		}
+
+		/* Hide table headers (but not display: none;, for accessibility) */
+		thead tr {
+			position: absolute;
+			top: -9999px;
+			left: -9999px;
+		}
+
+		tr { border: 1px solid #ccc; }
+
+		td {
+			/* Behave  like a "row" */
+			border: none;
+			border-bottom: 1px solid #eee;
+			position: relative;
+			padding-left: 50%;
+		}
+
+		td:before {
+			/* Now like a table header */
+			position: absolute;
+			/* Top/left values mimic padding */
+			top: 6px;
+			left: 6px;
+			width: 45%;
+			padding-right: 10px;
+			white-space: nowrap;
+		}
+
+		/*
+		Label the data
+		*/
+		td:before {
+		  content: attr(data-th) ": ";
+          font-weight: bold;
+          width: 6.5em;
+          display: inline-block;
+		}
+	}
+
+	/* Smartphones (portrait and landscape) ----------- */
+	@media only screen
+	and (min-device-width : 320px)
+	and (max-device-width : 480px) {
+		body {
+			padding: 0;
+			margin: 0;
+			width: 320px; }
+		}
+
+	/* iPads (portrait and landscape) ----------- */
+	@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+		body {
+			width: 495px;
+		}
+	}
+
+	</style>
+	<!--<![endif]-->
+
+</head>
+
+<body>
+
+	<div id="page-wrap">
+
+	<h1>NMap Network Inventory</h1>
+
+	</div>
+	<script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
+	<script type="text/javascript">
+
+		d3.select(".SearchBar")
+		.append("input")
+		.attr("class", "SearchBar")
+		.attr("id", "search")
+		.attr("type", "text")
+		.attr("placeholder", "Search...");
+
+	  d3.csv("data.csv", function(error, data) {
+		  if (error) throw error;
+
+		  var sortAscending = true;
+		  var table = d3.select('#page-wrap').append('table');
+		  var titles = d3.keys(data[0]);
+		  var headers = table.append('thead').append('tr')
+		                   .selectAll('th')
+		                   .data(titles).enter()
+		                   .append('th')
+		                   .text(function (d) {
+			                    return d;
+		                    })
+		                  .on('click', function(d) {
+        headers.attr('class', 'header');
+        if (d == "Hostname" || d == "Service" || d == "Version" || d == "Protocol" || d == "Status") { //these keys sort alphabetically
+          // sorting alphabetically");
+          if (sortAscending) {
+            rows.sort(function(a, b) {
+              return d3.ascending(a[d], b[d]);
+            });
+            sortAscending = false;
+            this.className = 'aes';
+          } else {
+            rows.sort(function(a, b) {
+              return d3.descending(a[d], b[d]);
+            });
+            sortAscending = true;
+            this.className = 'des';
+          }
+        } else {
+          if (sortAscending) {
+            //all other keys sort numerically including time
+            rows.sort(function(a, b) {
+              return b[d] - a[d];
+            });
+            sortAscending = false;
+            this.className = 'aes';
+          } else {
+            rows.sort(function(a, b) {
+              return a[d] - b[d];
+            });
+            sortAscending = true;
+            this.className = 'des';
+          }
+        }
+      });
+
+
+		  var rows = table.append('tbody').selectAll('tr')
+		               .data(data).enter()
+		               .append('tr');
+		  rows.selectAll('td')
+		    .data(function (d) {
+		    	return titles.map(function (k) {
+		    		return { 'value': d[k], 'IP': k};
+		    	});
+		    }).enter()
+		    .append('td')
+		    .attr('data-th', function (d) {
+		    	return d.IP;
+		    })
+		    .text(function (d) {
+		    	return d.value;
+		    });
+	  });
+	</script>
+</body>
+
+</html>
