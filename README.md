@@ -1,8 +1,5 @@
 # NMap Network Inventory Container
-
-Have you ever needed to provide NMap scan data in an easily understandable format? Have you noticed how hard it is to do?  So did I!
-
-So I hacked together a docker container to continually scan (Every 2 Hours) your network and display the findings cleanly using Debian, [Namp Grepable Output](https://nmap.org/book/output-formats-grepable-output.html), A bash script to convert it to a CSV and some [D3.js code](https://d3js.org/).
+Have you ever wanted up-to-date NMap scan data in an easily understandable format? Have you noticed how hard it is to get that? So did I! So I hacked together a docker container to continually scan (about every 2 Hours) your network and display the findings cleanly using Debian, [Namp Grepable Output](https://nmap.org/book/output-formats-grepable-output.html), A bash script to convert it to a CSV and some [D3.js code](https://d3js.org/).
 
 ## Build and Run Instructions
 
@@ -25,4 +22,4 @@ It will look like this:
 ![Screenshot](https://raw.githubusercontent.com/jgamblin/NMapNetworkInventoryContainer/master/ScreenShot.png)
 
 #### Important Notice
-I likely don't know what I am doing and this could be done faster, better and simpler some other way. Also make sure you have permission to NMap something before you do! 
+I likely don't know what I am doing and this could be done faster, better and simpler some other way. Also make sure you have permission to NMap something before you do!
