@@ -23,3 +23,6 @@ After the first run is complete (it will take a while) you can access the websit
 
 It will look like this:
 ![Screenshot](https://raw.githubusercontent.com/jgamblin/NMapNetworkInventoryContainer/master/ScreenShot.png)
+
+#### Important Notice
+I likely don't know what I am doing and this could be done faster, better and simpler some other way. Also make sure you have permission to NMap something before you do! 
